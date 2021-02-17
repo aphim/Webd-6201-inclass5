@@ -199,6 +199,7 @@
 
             contactIndex++;
           }
+          console.log(contactData);
         }
 
       });
