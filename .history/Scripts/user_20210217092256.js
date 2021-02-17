@@ -46,13 +46,7 @@
   
     // constructor
 
-    /**
-     * Creates an instance of User
-     * @param {*} [displayName=""] 
-     * @param {*} [emailAddress=""] 
-     * @param {*} [username=""] 
-     * @param {*} [password=""] 
-     */
+
     constructor(displayName = "",  emailAddress = "", username = "", password = "") 
     {
       this.DisplayName = displayName;
