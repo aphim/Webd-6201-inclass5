@@ -6,26 +6,10 @@
 
 "use strict";
 
-
 ((core) =>
 {
     function displayHome()
     {
-
-      $("button").on("mouseover", () =>
-      {
-        console.log("mouseover button - jquery");
-      });
-
-      let myButton = document.querySelectorAll("button")[0];
-       myButton.addEventListener("click", function()
-      {
-        console.log("clicked button - js");
-      });
-
-      console.log(myButton);
-
-
         let paragraphOneText =
           "This is a simple site to demonstrate DOM Manipulation for ICE 1";
 
@@ -94,67 +78,57 @@
     function testFullName()
     {
       let messageArea = $("#messageArea").hide();
-
       let fullNamePattern = /([A-Z][a-z]{1,25})+(\s|,|-)([A-Z][a-z]{1,25})+(\s|,|-)*/;
 
-      $("#fullName").on("blur", function()
-      {
+        
+        $("#fullName").on("blur", function()
+        {
           if(!fullNamePattern.test($(this).val()))
           {
             $(this).trigger("focus").trigger("select");
-            messageArea.show().addClass("alert alert-danger").text("Please enter a valid Name. This must include a Capitalized first name followed by a Capitalized last name");
-             
+            messageArea.show().addClass("alert alert-danger").text("Please enter a valid Full Name. This must include at least a Capitalized first name followed by a Capitlalized last name.");
           }
           else
           {
-            messageArea.removeAttr("class").hide();
-
+              messageArea.removeAttr("class").hide();
           }
         });
-
     }
 
     function testContactNumber()
     {
       let messageArea = $("#messageArea");
-
       let contactNumberPattern = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
-
-      $("#contactNumber").on("blur", function()
-      {
+        
+        $("#contactNumber").on("blur", function()
+        {
           if(!contactNumberPattern.test($(this).val()))
           {
             $(this).trigger("focus").trigger("select");
-            messageArea.show().addClass("alert alert-danger").text("Please enter a valid Contact Number. Country code and area code are both optional.");
-             
+            messageArea.show().addClass("alert alert-danger").text("Please enter a valid Contact Number. Country code and area code are both optional");
           }
           else
           {
-            messageArea.removeAttr("class").hide();
-
+              messageArea.removeAttr("class").hide();
           }
         });
-
     }
 
     function testEmailAddress()
     {
       let messageArea = $("#messageArea");
-
       let emailAddressPattern = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/;
-
-      $("#emailAddress").on("blur", function()
-      {
+        
+        $("#emailAddress").on("blur", function()
+        {
           if(!emailAddressPattern.test($(this).val()))
           {
             $(this).trigger("focus").trigger("select");
-            messageArea.show().addClass("alert alert-danger").text("Please enter a valid email address");
-             
+            messageArea.show().addClass("alert alert-danger").text("Please enter a valid Email Address.");
           }
           else
           {
-            messageArea.removeAttr("class").hide();
-
+              messageArea.removeAttr("class").hide();
           }
         });
     }
@@ -168,12 +142,12 @@
 
     function displayContact()
     {
-      //form validation
+      // form validation
       formValidation();
 
-        $("#sendButton").on("click", (event)=>
+        $("#sendButton").on("click", (event)=> 
         {
-          if ($("#subscribeCheckbox")[0].checked)
+          if($("#subscribeCheckbox")[0].checked)
           {
             let contact = new core.Contact(fullName.value, contactNumber.value, emailAddress.value);
 
@@ -184,17 +158,12 @@
               localStorage.setItem(key, contact.serialize());
             }
           }
-         
-
         });
-
     }
-
 
     function displayContactList() 
     {
-
-            ////EXAMPLE of AJAX
+      ////EXAMPLE of AJAX
       // //step 1: create an XHR object
       // let XHR = new XMLHttpRequest();
 
@@ -243,7 +212,7 @@
         let data = "";
 
         let keys = Object.keys(localStorage);
-
+         
         let index = 1;
 
         for (const key of keys) 
@@ -260,16 +229,15 @@
           <td>${contact.EmailAddress}</td>
           <td class="text-center"><button value="${key}" class="btn btn-primary btn-sm edit"><i class="fas fa-edit fa-sm"></i> Edit</button></td>
           <td class="text-center"><button value="${key}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash-alt fa-sm"></i> Delete</button></td>
-        </tr>`;
+          </tr>`;
 
-        index++;
+          index++;
         }
 
-        
         contactList.innerHTML = data;
 
         $("button.edit").on("click", function(){
-          location.href = "edit.html#" +$(this).val(); 
+          location.href = "edit.html#" + $(this).val();
          });
 
          $("button.delete").on("click", function(){
@@ -280,11 +248,10 @@
            location.href = "contact-list.html"; // refresh the page
          });
 
-         $("#addButton").on("click", function()
+         $("#addButton").on("click", function() 
          {
-         location.href = "edit.html";
-        });
-
+          location.href = "edit.html";
+         });
       }
     }
 
@@ -294,47 +261,71 @@
 
       let contact = new core.Contact();
 
+      // check to ensure that the key is not empty
       if(key != "")
       {
+        // get contact info from localStorage
         contact.deserialize(localStorage.getItem(key));
 
+        // display contact information in the form
         $("#fullName").val(contact.FullName);
         $("#contactNumber").val(contact.ContactNumber);
         $("#emailAddress").val(contact.EmailAddress);
       }
       else
       {
-        //modify page for add button instead of edit
+        // modify the page so that it shows "Add Contact" in the header 
         $("main>h1").text("Add Contact");
-        //modify edit button
-        $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i>Add`);
+        // modify edit button so that it shows "Add" as well as the appropriate icon
+        $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i> Add`);
       }
 
-      //form validation
+      // form validation
       formValidation();
-
-      $("#editButton").on("click", function()
-      {
-        
-        if(key == "")
+      
+     $("#editButton").on("click", function() 
         {
-          key = contact.FullName.substring(0, 1) + Date.now();
-        }
+            // check to see if key is empty
+          if(key == "")
+          {
+            // create a new key
+            key = contact.FullName.substring(0, 1) + Date.now();
+          }
 
-        contact.FullName = $("#fullName").val();
-        contact.ContactNumber = $("#contactNumber").val();
-        contact.EmailAddress = $("#emailAddress").val();
+          // copy contact info from form to contact object
+          contact.FullName = $("#fullName").val();
+          contact.ContactNumber = $("#contactNumber").val();
+          contact.EmailAddress = $("#emailAddress").val();
 
-        localStorage.setItem(key, contact.serialize());
+          // add the contact info to localStorage
+          localStorage.setItem(key, contact.serialize());
 
-        location.href = "contact-list.html";
-
-      });
+          // return to the contact list
+          location.href = "contact-list.html";
+          
+        });
+   
 
       $("#cancelButton").on("click", function()
       {
+        // return to the contact list
         location.href = "contact-list.html";
       });
+    }
+
+    function displayLogin()
+    {
+      $("#cancelButton").on("click", function()
+      {
+        document.forms[0].reset();
+        // return to the contact list
+        location.href = "index.html";
+      });
+    }
+
+    function displayRegister()
+    {
+
     }
 
     function Start()
@@ -360,10 +351,16 @@
             break;
           case "Contact-List":
             displayContactList();
-          break;
+            break;
           case "Edit":
             displayEdit();
-        break;
+            break;
+          case "Login":
+            displayLogin();
+          break;
+          case "Register":
+            displayRegister();
+          break;
         }
         
     }
@@ -372,4 +369,4 @@
 
     core.Start = Start;
 
-}) (core || (core={}));
+})(core || (core={}));
