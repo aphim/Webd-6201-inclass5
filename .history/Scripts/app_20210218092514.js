@@ -334,24 +334,7 @@
 
     function displayLogout()
     {
-              //if user is logged in
-              if(sessionStorage.getItem("user"))
-              {
-                //swap out login with logout
-                $("#login").html(
-                  `<a id="logout" class="nav-link" aria-current="page" href="#"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a>`
-                );
-                
-                $("#logout").on("click", function()
-                {
-                  //perform logout
-                  sessionStorage.clear();
-      
-                  //redirect to login
-                  location.href = "login.html";
-                });
-      
-              }
+
     }
 
 
@@ -389,9 +372,9 @@
             displayRegister();
           break;
         }
-
         displayLogout();
-
+        
+        }
         
     }
 
