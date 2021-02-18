@@ -163,14 +163,10 @@
 
     function displayContactList() 
     {
+      $("#contactListLink").setAttribute("class", "nav-link active");
 
-      $("#contactListLink").attr("class", "nav-link active");
-      
       if (localStorage.length > 0) 
       {
-
-        //document.getElementById("contactListLink").setAttribute("class", "nav-link active");
-
         let contactList = document.getElementById("contactList");
 
         let data = "";
